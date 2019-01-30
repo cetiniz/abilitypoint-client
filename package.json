@@ -2,7 +2,11 @@
   "name": "abilitypoint-client",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://localhost:4000",
   "dependencies": {
+    "d3": "^5.8.0",
+    "d3-force": "^2.0.0",
+    "d3-selection": "^1.4.0",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
     "react-scripts": "2.1.3"
