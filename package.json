@@ -4,6 +4,8 @@
   "private": true,
   "proxy": "http://localhost:4000",
   "dependencies": {
+    "@material-ui/core": "^3.9.2",
+    "@material-ui/icons": "^3.0.2",
     "d3": "^5.8.0",
     "d3-force": "^2.0.0",
     "d3-selection": "^1.4.0",

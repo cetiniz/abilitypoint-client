@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import Network from './Network.js';
+import NodeCreator from "./NodeCreator";
 
 class App extends Component {
   constructor(props) {
@@ -52,6 +53,7 @@ class App extends Component {
           {nodes && (
           <Network nodes={nodes} edges={edges}/>
           )}
+          <NodeCreator />
         </header>
       </div>
     );
