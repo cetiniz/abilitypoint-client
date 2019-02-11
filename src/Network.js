@@ -31,9 +31,10 @@ class Network extends Component {
         .attr('y', 3);
     node.append("title")
         .text(function(d) { return d.name; });
-    const link_force =  forceLink(this.props.edges)
+        const link_force =  forceLink(this.props.edges)
         .id(function(d) { return d.Name; });
     simulation.force("links", link_force);
+   if (!link_force) {
     const link = svg.append("g")
         .attr("class", "links")
         .selectAll("line")
@@ -43,6 +44,10 @@ class Network extends Component {
     simulation
         .nodes(this.props.nodes)
         .on("tick", () => this.tickActions(node, link) );
+      }
+    simulation
+      .nodes(this.props.nodes)
+      .on("tick", () => this.tickAction(node) );
   }
 
   tickActions(node, link) {
@@ -56,6 +61,14 @@ class Network extends Component {
         .attr("x2", function(d) { return d.target.x; })
         .attr("y2", function(d) { return d.target.y; });
   }
+
+  tickAction(node) {
+    node
+        .attr("transform", function(d) {
+          return "translate(" + d.x + "," + d.y + ")";
+        });
+      }
+
   render() {
     return (
       <svg width="960" height="600" />

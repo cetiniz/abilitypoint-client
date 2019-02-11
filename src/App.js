@@ -14,7 +14,7 @@ class App extends Component {
     };
   }
 
-  componentDidMount() {
+/*   componentDidMount() {
     fetch('/api').then(res => {
       res.json().then(json => {
         const edges = [];
@@ -36,6 +36,23 @@ class App extends Component {
             }
           });
         this.setState({ nodes, edges });
+      })
+    })
+  } */
+
+  componentDidMount() {
+    fetch('/api/all').then(res => {
+      res.json().then(json => {
+        const nodes = [];
+        const addedNodes = new Set();
+          json.forEach(node => {
+
+            if (!addedNodes.has(node.Name)) {
+              nodes.push(node);
+              addedNodes.add(node.Name)
+            }
+          });
+        this.setState({ nodes });
       })
     })
   }
