@@ -7,7 +7,15 @@ class Network extends Component {
     super(props);
   }
 
-  componentDidMount() {
+/* ComponentDidUpdate(prevProps){
+  const { data } = this.props;
+
+  if(data !== prevProps.data){
+    this.renderMe()
+  }
+} */
+
+renderMe = () => {
     const svg = select("svg"),
       width = +svg.attr("width"),
       height = +svg.attr("height");
@@ -50,6 +58,10 @@ class Network extends Component {
       .on("tick", () => this.tickAction(node) );
   }
 
+  componentDidMount(){
+    this.renderMe()
+  }
+
   tickActions(node, link) {
     node
         .attr("transform", function(d) {
@@ -70,8 +82,10 @@ class Network extends Component {
       }
 
   render() {
+    
     return (
       <svg width="960" height="600" />
+    
     );
   }
 }

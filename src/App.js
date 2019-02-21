@@ -3,6 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 import Network from './Network.js';
 import NodeCreator from "./NodeCreator";
+import NodeSwitcher from "./components/NodeSwitcher";
 
 class App extends Component {
   constructor(props) {
@@ -11,7 +12,11 @@ class App extends Component {
     this.state = {
       nodes: null,
       edges: null,
+      api: '/api/all',
     };
+
+    this.setApi = this.setApi.bind(this);
+    this.fetchNodes = this.fetchNodes.bind(this);
   }
 
 /*   componentDidMount() {
@@ -40,8 +45,8 @@ class App extends Component {
     })
   } */
 
-  componentDidMount() {
-    fetch('/api/all').then(res => {
+  fetchNodes = (api) => {
+    fetch(api).then(res => {
       res.json().then(json => {
         const nodes = [];
         const addedNodes = new Set();
@@ -57,12 +62,35 @@ class App extends Component {
     })
   }
 
+  componentDidMount() {
+ 
+    fetch(this.state.api).then(res => {
+      res.json().then(json => {
+        const nodes = [];
+        const addedNodes = new Set();
+          json.forEach(node => {
+
+            if (!addedNodes.has(node.Name)) {
+              nodes.push(node);
+              addedNodes.add(node.Name)
+            }
+          });
+        this.setState({ nodes });
+      })
+    })
+  
+  }
+
   setNodeData = (nodes) => {
     this.setState({ nodes });
   }
 
+  setApi = (api) => {
+    this.setState({api});
+  }
+
   render() {
-    const { nodes, edges } = this.state;
+    const { nodes, edges, api, } = this.state;
 
     return (
       <div className="App">
@@ -71,6 +99,11 @@ class App extends Component {
           <Network nodes={nodes} edges={edges}/>
           )}
           <NodeCreator />
+          {
+            <NodeSwitcher api={api} setApi={this.setApi} fetchNodes={this.fetchNodes} />
+            }
+            {api}
+            (<div><pre>{JSON.stringify(nodes, null, 2) }</pre></div>
         </header>
       </div>
     );
