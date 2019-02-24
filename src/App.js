@@ -51,7 +51,6 @@ class App extends Component {
         const nodes = [];
         const addedNodes = new Set();
           json.forEach(node => {
-
             if (!addedNodes.has(node.Name)) {
               nodes.push(node);
               addedNodes.add(node.Name)
@@ -63,7 +62,7 @@ class App extends Component {
   }
 
   componentDidMount() {
- 
+
     fetch(this.state.api).then(res => {
       res.json().then(json => {
         const nodes = [];
@@ -78,7 +77,7 @@ class App extends Component {
         this.setState({ nodes });
       })
     })
-  
+
   }
 
   setNodeData = (nodes) => {
@@ -96,7 +95,7 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
           {nodes && (
-          <Network nodes={nodes} edges={edges}/>
+          <Network nodes={nodes} edges={edges || []}/>
           )}
           <NodeCreator />
           {

@@ -6,7 +6,29 @@ import { zoom } from 'd3-zoom';
 import { forceManyBody, forceSimulation, forceCenter, forceLink } from 'd3-force';
 
 class Network extends Component {
+  state = {
+    node: null,
+    link: null,
+  };
+
   componentDidMount() {
+    this.renderNodeNetwork()
+  }
+
+  componentWillReceiveProps(nextProps, nextContext) {
+    debugger
+    this.deleteNodeNetwork();
+    this.renderNodeNetwork();
+  }
+
+  deleteNodeNetwork() {
+      const { node, zoomWindow } = this.state;
+
+      node.remove();
+      zoomWindow.remove();
+  }
+
+  renderNodeNetwork() {
     const svg = select("svg"),
       width = +svg.attr("width"),
       height = +svg.attr("height");
@@ -88,6 +110,12 @@ class Network extends Component {
         .force("links",link_force)
         .nodes(this.props.nodes)
         .on("tick", () => this.tickActions(node, link) );
+
+    window.node = node;
+    window.link = link;
+    window.zoomWindow = zoomWindow;
+    this.setState({ node, zoomWindow });
+    this.forceUpdate()
   }
 
   tickActions(node, link) {
