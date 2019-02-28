@@ -11,24 +11,27 @@ class Network extends Component {
     link: null,
   };
 
-  componentDidMount() {
-    this.renderNodeNetwork()
-  }
-
-  componentWillReceiveProps(nextProps, nextContext) {
-    debugger
-    this.deleteNodeNetwork();
+  componentDidMount() { //initial render
     this.renderNodeNetwork();
   }
 
-  deleteNodeNetwork() {
-      const { node, zoomWindow } = this.state;
+  componentDidUpdate(prevProps) { //if props change
+    if (this.props.nodes !== prevProps.nodes){
+    debugger
+    
+    this.deleteNodeNetwork();
+    this.renderNodeNetwork();
+    }
+  }
+
+  deleteNodeNetwork() {    //unmounts window
+    const { node, zoomWindow } = this.state;
 
       node.remove();
       zoomWindow.remove();
   }
 
-  renderNodeNetwork() {
+  renderNodeNetwork() {  //mounts window
     const svg = select("svg"),
       width = +svg.attr("width"),
       height = +svg.attr("height");
@@ -115,7 +118,7 @@ class Network extends Component {
     window.link = link;
     window.zoomWindow = zoomWindow;
     this.setState({ node, zoomWindow });
-    this.forceUpdate()
+    //this.forceUpdate()
   }
 
   tickActions(node, link) {
@@ -132,6 +135,8 @@ class Network extends Component {
   render() {
     return (
         <svg width="960" height="600" />
+        
+
     );
   }
 }

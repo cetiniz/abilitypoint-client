@@ -19,13 +19,14 @@ class App extends Component {
     this.fetchNodes = this.fetchNodes.bind(this);
   }
 
-/*   componentDidMount() {
+   componentDidMount() {
     fetch('/api').then(res => {
       res.json().then(json => {
         const edges = [];
         const nodes = [];
         const addedNodes = new Set();
           json.forEach(node => {
+            if(!node.From.Name){
               const edge = {
                 source: node.From.Name,
                 target: node.To.Name,
@@ -39,24 +40,49 @@ class App extends Component {
               nodes.push(node.To);
               addedNodes.add(node.To.Name)
             }
-          });
+          }
+          else {
+            if (!addedNodes.has(node.Name)) {
+              nodes.push(node);
+              addedNodes.add(node.Name)
+          }
+          }
+        });
         this.setState({ nodes, edges });
       })
     })
-  } */
+  } 
 
   fetchNodes = (api) => {
     fetch(api).then(res => {
       res.json().then(json => {
+        const edges = [];
         const nodes = [];
         const addedNodes = new Set();
           json.forEach(node => {
+            if(node.From !== undefined){
+              const edge = {
+                source: node.From.Name,
+                target: node.To.Name,
+              };
+              edges.push(edge);
+              if (!addedNodes.has(node.From.Name)) {
+                  nodes.push(node.From);
+                  addedNodes.add(node.From.Name)
+              }
+            if (!addedNodes.has(node.To.Name)) {
+              nodes.push(node.To);
+              addedNodes.add(node.To.Name)
+            }
+          }
+          else {
             if (!addedNodes.has(node.Name)) {
               nodes.push(node);
               addedNodes.add(node.Name)
-            }
-          });
-        this.setState({ nodes });
+          }
+          }
+        });
+        this.setState({ nodes, edges });
       })
     })
   }
